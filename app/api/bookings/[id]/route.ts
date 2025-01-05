@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { promises as fs } from 'fs'
 import path from 'path'
 
-const dataFilePath = path.join(process.cwd(), 'app/data/bookings.json')
+const dataFilePath = path.join(process.cwd(), '/tmp', 'bookings.json')
 
 async function getBookings() {
   const fileContents = await fs.readFile(dataFilePath, 'utf8')

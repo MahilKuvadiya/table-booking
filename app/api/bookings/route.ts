@@ -3,7 +3,7 @@ import { promises as fs } from 'fs'
 import path from 'path'
 import { v4 as uuidv4 } from 'uuid'
 
-const dataFilePath = path.join(process.cwd(), 'app/data/bookings.json')
+const dataFilePath = path.join(process.cwd(), '/tmp', 'bookings.json')
 
 async function getBookings() {
   const fileContents = await fs.readFile(dataFilePath, 'utf8')
