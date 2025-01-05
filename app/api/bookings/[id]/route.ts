@@ -22,8 +22,8 @@ async function getBookings() {
   return JSON.parse(fileContents);
 }
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
-  const { id } = params;
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const bookings = await getBookings();
   const booking = bookings.find((b: { id: string }) => b.id === id);
 
