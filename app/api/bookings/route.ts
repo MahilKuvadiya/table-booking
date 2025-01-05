@@ -6,14 +6,17 @@ import { v4 as uuidv4 } from 'uuid';
 const dataFilePath = path.join('/tmp', 'bookings.json');
 
 async function ensureFileExists() {
+  const dir = path.dirname(dataFilePath);
+  try {
+    await fs.access(dir);
+  } catch {
+    await fs.mkdir(dir, { recursive: true });
+  }
+
   try {
     await fs.access(dataFilePath);
-  } catch (error: any) {
-    if (error.code === 'ENOENT') {
-      await fs.writeFile(dataFilePath, JSON.stringify([]), 'utf8');
-    } else {
-      throw error;
-    }
+  } catch {
+    await fs.writeFile(dataFilePath, JSON.stringify([]), 'utf8');
   }
 }
 
@@ -24,6 +27,7 @@ async function getBookings(): Promise<{ id: string; date: string; time: string }
 }
 
 async function saveBookings(bookings: { id: string; date: string; time: string }[]): Promise<void> {
+  await ensureFileExists();
   await fs.writeFile(dataFilePath, JSON.stringify(bookings, null, 2), 'utf8');
 }
 
